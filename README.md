@@ -48,6 +48,13 @@ Simple and easy user-persistent configuration library for .NET
         }
     }
 
+## Requirements
+Uses the Json.NET package from Newtonsoft for JSON serialization. 
+This nuget package can be retrieved with
+
+    Install-Package Newtonsoft.Json
+    
+in the nuget command line.
 ## Further configuration
 
 ### Autosave
