@@ -60,7 +60,7 @@ namespace SimpleConfig
             File.WriteAllText(DataFile,json);
         }
 
-        public void Load()
+        private void Load()
         {
             if (File.Exists(DataFile))
             {
