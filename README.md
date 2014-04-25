@@ -5,7 +5,7 @@ Simple and easy user-persistent configuration library for .NET
 
 
 ## Basic usage
-```
+```C#
 using System;
 using SimpleConfig;
 
@@ -60,7 +60,7 @@ in the nuget command line.
 ### Autosave
 Autosave can be enabled within the Config constructor to automatically save changes every time an item is changed.
 This may have performance impacts on large configurations.
-```
+```C#
 bool autoSave = true;
 
 Config cfg = new Config("test",false,autoSave);
@@ -68,7 +68,7 @@ Config cfg = new Config("test",false,autoSave);
 ### Save Location
 SharpConfig saves by default to a user-named folder within the Environment.SpecialFolder.LocalApplicationData folder.
 It is possible to change this so as to save to the application executable path like so:
-```
+```C#
 bool localSave = true;
 
 Config cfg = new Config("test",localSave);
