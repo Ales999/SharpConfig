@@ -1,5 +1,5 @@
 ﻿using System;
-using SimpleConfig;
+using SharpConfig;
 
 namespace TestConsole
 {

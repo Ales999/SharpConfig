@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace SimpleConfig
+namespace SharpConfig
 {
     public class Config
     {
