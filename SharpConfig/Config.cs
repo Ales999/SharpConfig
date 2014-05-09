@@ -6,15 +6,26 @@ using Newtonsoft.Json;
 
 namespace SharpConfig
 {
+    /// <summary>
+    /// The basis of the SharpConfig configuration system.</summary>
     public class Config
     {
-        public Dictionary<string,object> Values = new Dictionary<string, object>();
+        private Dictionary<string, object> Values = new Dictionary<string, object>();
+        /// <summary>
+        /// Changes which namespace the configuration saves to. You must create a new object to load from a new namespace.</summary>
         public string Namespace;
+        /// <summary>
+        /// Whether or not the configuration will be automatically saved every time a value is modified. </summary>
         public bool AutoSave;
 
         private string DataFile;
         private string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
+        /// <summary>
+        /// The constructor. Loads the configuration from the specified namespace on construction. </summary>
+        /// <param name="nameSpace">Designates the configuration that will be loaded from and later saved to.</param>
+        /// <param name="saveLocal">Designates whether the configuration will be saved in the executable's directory or not.</param>
+        /// <param name="autoSave">Designates whether the configuration will be saved everytime it is changed.</param>
         public Config(string nameSpace,bool saveLocal = false,bool autoSave = false)
         {
             Namespace = nameSpace;
@@ -39,27 +50,44 @@ namespace SharpConfig
             Load();
         }
 
-        public dynamic this[string s]
+        /// <summary>
+        /// Indexer for the configuration, providing dynamic access to the collection of values in the configuration.</summary>
+        /// <param name="key">Designates what configuration item will be changed or retrieved.</param>
+        public dynamic this[string key]
         {
             get
             {
-                return Values[s];
+                return Values[key];
             }
             set
             {
-                Values[s] = value;
+                Values[key] = value;
 
                 if (AutoSave)
                     Save();
             }
         }
 
+        /// <summary>
+        /// Saves the configuration to the disk.</summary>
         public void Save()
         {
             string json = JsonConvert.SerializeObject(Values,Formatting.Indented);
             File.WriteAllText(DataFile,json);
         }
 
+        /// <summary>
+        /// Removes an item from the collection.</summary>
+        public void Delete(string key)
+        {
+            Values.Remove(key);
+
+            if (AutoSave)
+                Save();
+        }
+
+        /// <summary>
+        /// Reloads the configuration from the disk.</summary>
         private void Load()
         {
             if (File.Exists(DataFile))
