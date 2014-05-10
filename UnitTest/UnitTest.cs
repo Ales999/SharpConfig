@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpConfig;
 
@@ -25,6 +26,42 @@ namespace UnitTest
             Assert.AreEqual(valueDate, standardConfig["testDate"]);
             Assert.AreEqual(valueInteger, standardConfig["testInteger"]);
             Assert.AreEqual(valueChar, standardConfig["testChar"]);
+        }
+
+        [TestMethod]
+        public void SpeedTestBasicTypes()
+        {
+            var standardConfig = new Config("SharpConfigTest", true);
+
+            int iterations = 20000;
+
+            for (int i = 0; i < iterations; i++)
+            {
+                standardConfig[i.ToString()] = i.ToString();
+            }
+
+            for (int i = 0; i < iterations; i++)
+            {
+                Console.WriteLine(standardConfig[i.ToString()]);
+            }
+        }
+
+        [TestMethod]
+        public void SpeedTestAdvancedTypes()
+        {
+            var standardConfig = new Config("SharpConfigTest", true);
+
+            int iterations = 20000;
+
+            for (int i = 0; i < iterations; i++)
+            {
+                standardConfig[i.ToString()] = new StringBuilder(i.ToString());
+            }
+
+            for (int i = 0; i < iterations; i++)
+            {
+                Console.WriteLine(standardConfig[i.ToString()]);
+            }
         }
 
         [TestMethod]
