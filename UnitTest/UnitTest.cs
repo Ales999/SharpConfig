@@ -42,5 +42,63 @@ namespace UnitTest
             Assert.AreEqual(referenceArray, standardConfig["testArray"]);
         }
 
+        [TestMethod]
+        public void SavingLoading()
+        {
+            int value = 1024;
+            {
+                var standardConfig = new Config("SharpConfigTest");
+
+                standardConfig["test"] = value;
+
+                standardConfig.Save();
+            }
+
+            {
+                var standardConfig = new Config("SharpConfigTest");
+
+                Assert.AreEqual(value,standardConfig["test"]);
+            }
+
+        }
+
+        [TestMethod]
+        public void LocalSavingLoading()
+        {
+            int value = 1024;
+            {
+                var standardConfig = new Config("SharpConfigTest",true);
+
+                standardConfig["test"] = value;
+
+                standardConfig.Save();
+            }
+
+            {
+                var standardConfig = new Config("SharpConfigTest", true);
+
+                Assert.AreEqual(value, standardConfig["test"]);
+            }
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void Delete()
+        {
+            var standardConfig = new Config("SharpConfigTest", true);
+
+            standardConfig["test"] = 1024;
+
+
+            standardConfig.Delete("test");
+
+            if (standardConfig["test"] == 1024)
+            {
+                Assert.Fail("Deleted key still exists.");
+            }
+
+        }
+
     }
 }
