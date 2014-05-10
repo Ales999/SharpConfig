@@ -3,6 +3,8 @@ SharpConfig
 
 Simple and easy user-persistent configuration library for .NET
 
+Capable of saving and loading nearly any object onto the disk. Designed to be as easy to use as possible via the use of the *dynamic* keyword, JSON and a constant striving for slimness.
+
 
 ## Basic usage
 ```C#
@@ -15,7 +17,7 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            //The namespace defines which configuration is loaded and saved to
+            //The namespace defines 'which' configuration should be loaded
             //This should be adequately unique and should only have filesystem safe characters
             string testNamespace = "TestingNamespace";
 
@@ -50,7 +52,7 @@ namespace TestConsole
 ```
 ## Requirements
 Uses the Json.NET package from Newtonsoft for JSON serialization. 
-This nuget package can be retrieved with
+JSON.NET's nuget package can be retrieved with
 
     Install-Package Newtonsoft.Json
     
@@ -66,7 +68,7 @@ bool autoSave = true;
 Config cfg = new Config("test",false,autoSave);
 ```
 ### Save Location
-SharpConfig saves by default to a user-named folder within the Environment.SpecialFolder.LocalApplicationData folder.
+SharpConfig saves by default to the namespace designated folder within the Environment.SpecialFolder.LocalApplicationData folder.
 It is possible to change this so as to save to the application executable path like so:
 ```C#
 bool localSave = true;
