@@ -9,7 +9,7 @@ Capable of saving and loading nearly any object onto the disk. Designed to be as
 ## Basic usage
 ```C#
 using System;
-using SimpleConfig;
+using SharpConfig;
 
 namespace TestConsole
 {
