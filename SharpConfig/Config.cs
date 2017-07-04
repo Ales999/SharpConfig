@@ -96,6 +96,17 @@ namespace SharpConfig
         }
 
         /// <summary>
+        /// Return true if value, by key, is exist, and set value 
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="value">out value if exist</param>
+        /// <returns>true if value is exist</returns>
+        public bool TryGetValue(string key, out dynamic value)
+        {
+            return Values.TryGetValue(key, out value);
+        }
+
+        /// <summary>
         /// Reloads the configuration from the disk.</summary>
         private void Load()
         {
