@@ -18,8 +18,8 @@ namespace SharpConfig
         /// Whether or not the configuration will be automatically saved every time a value is modified. </summary>
         public bool AutoSave;
 
-        private string DataFile;
-        private string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private readonly string DataFile;
+        private readonly string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         /// <summary>
         /// The constructor. Loads the configuration from the specified namespace on construction. </summary>
@@ -87,10 +87,30 @@ namespace SharpConfig
         }
 
         /// <summary>
+        /// Return true if config file exist
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConfigFileExists()
+        {
+            return File.Exists(DataFile);
+        }
+
+        /// <summary>
+        /// Return true if value, by key, is exist, and set value 
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="value">out value if exist</param>
+        /// <returns>true if value is exist</returns>
+        public bool TryGetValue(string key, out dynamic value)
+        {
+            return Values.TryGetValue(key, out value);
+        }
+
+        /// <summary>
         /// Reloads the configuration from the disk.</summary>
         private void Load()
         {
-            if (File.Exists(DataFile))
+            if (IsConfigFileExists())
             {
                 string json = File.ReadAllText(DataFile);
                 Values = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
