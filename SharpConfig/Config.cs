@@ -13,12 +13,12 @@ namespace SharpConfig
         private Dictionary<string, object> Values = new Dictionary<string, object>();
         /// <summary>
         /// Changes which namespace the configuration saves to. You must create a new object to load from a new namespace.</summary>
-        public string Namespace;
+        public readonly string Namespace;
         /// <summary>
         /// Whether or not the configuration will be automatically saved every time a value is modified. </summary>
-        public bool AutoSave;
+        public readonly bool AutoSave;
 
-        private readonly string DataFile;
+        private readonly string _dataFile;
         private readonly string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace SharpConfig
         /// <param name="nameSpace">Designates the configuration that will be loaded from and later saved to.</param>
         /// <param name="saveLocal">Designates whether the configuration will be saved in the executable's directory or not.</param>
         /// <param name="autoSave">Designates whether the configuration will be saved everytime it is changed.</param>
-        public Config(string nameSpace,bool saveLocal = false,bool autoSave = false)
+        public Config(string nameSpace, bool saveLocal = false, bool autoSave = false)
         {
             Namespace = nameSpace;
             AutoSave = autoSave;
@@ -35,7 +35,7 @@ namespace SharpConfig
             {
                 Directory.CreateDirectory(Path.Combine(appData, Namespace));
 
-                DataFile = Path.Combine(appData, Namespace, "config.json");
+                _dataFile = Path.Combine(appData, Namespace, "config.json");
             }
             else
             {
@@ -44,7 +44,7 @@ namespace SharpConfig
                 string exeDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
                 //but if exeDirectory fails, we use the working directory.
-                DataFile = Path.Combine(exeDirectory ?? Environment.CurrentDirectory, nameSpace + ".json");
+                _dataFile = Path.Combine(exeDirectory ?? Environment.CurrentDirectory, nameSpace + ".json");
             }
 
             Load();
@@ -55,10 +55,7 @@ namespace SharpConfig
         /// <param name="key">Designates what configuration item will be changed or retrieved.</param>
         public dynamic this[string key]
         {
-            get
-            {
-                return Values[key];
-            }
+            get => Values[key];
             set
             {
                 Values[key] = value;
@@ -72,8 +69,8 @@ namespace SharpConfig
         /// Saves the configuration to the disk.</summary>
         public void Save()
         {
-            string json = JsonConvert.SerializeObject(Values,Formatting.Indented);
-            File.WriteAllText(DataFile,json);
+            var json = JsonConvert.SerializeObject(Values,Formatting.Indented);
+            File.WriteAllText(_dataFile,json);
         }
 
         /// <summary>
@@ -92,7 +89,7 @@ namespace SharpConfig
         /// <returns></returns>
         public bool IsConfigFileExists()
         {
-            return File.Exists(DataFile);
+            return File.Exists(_dataFile);
         }
 
         /// <summary>
@@ -112,7 +109,7 @@ namespace SharpConfig
         {
             if (IsConfigFileExists())
             {
-                string json = File.ReadAllText(DataFile);
+                var json = File.ReadAllText(_dataFile);
                 Values = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
             }
         }
