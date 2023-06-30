@@ -31,6 +31,9 @@ namespace TestConsole
 
             //Items are returned as 'dynamic', meaning no casting is necessary
             int ourNumber = cfg["number"];
+            
+            // Print from cfg
+            Console.WriteLine(ourNumber);
 
             //Call the Save method on your Config object to save your items to the disk
             //This isn't necessary if your Config object has autosave enabled
